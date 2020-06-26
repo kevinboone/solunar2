@@ -1,0 +1,18 @@
+Moon percentage illuminated
+
+Add user-defined cities (but tricky, because they need timezone offsets.
+These could be based on TZs from other cities but, currently, we have no way
+to deal with specific UTC offsets for timezones.)
+
+Handle spaces in city names
+
+Order sunrise sunset when only one of each sunrise/set direction
+
+Harvest/hunter's moon
+
+JSON
+ 
+Document parsezoninfo.pl
+ 
+
+
