@@ -35,7 +35,7 @@ clean:
 	make -C libsolunar clean
 
 install: $(TARGET)
-	mkdir -p $(BINDIR) 
+	mkdir -p $(BINDIR) $(MANDIR)
 	strip $(TARGET)
 	install -m 755 $(TARGET) ${BINDIR}
 	install -m 644 man1/* $(MANDIR)
