@@ -35,7 +35,6 @@ int kstring_alpha_sort_fn (const void *p1, const void*p2,
 
 extern void          kstring_append (KString *self, const KString *s);
 extern void          kstring_append_char (KString *self, UTF32 c);
-extern void          kstring_append_utf32 (KString *self, const UTF32 *s);
 extern void          kstring_append_utf8 (KString *self, const UTF8 *s);
 extern void          kstring_append_printf (KString *self, char *fmt,...);
 
