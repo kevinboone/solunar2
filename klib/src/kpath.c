@@ -402,7 +402,7 @@ int kpath_open_write (const KPath *self)
   int ret = 0;  
   UTF8 *path = kstring_to_utf8 ((KString *)self);
   klog_debug (KLOG_CLASS, "Open '%s' for write", path);
-  ret = open ((char *)path, O_WRONLY | O_CREAT | O_TRUNC);
+  ret = open ((char *)path, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR );
   free (path);
   KLOG_OUT
   return ret;
