@@ -1,13 +1,6 @@
 # Solunar 2.0
 
-Version 2.0a
-
-*Work in progress*
-
-_Please note that this new version of `solunar` does not yet have all_
-_the features of the old one. I'm hoping to include everything, but it_
-_will take time. If you are long-term user of `solunar` (and I know there_
-_are some), and you're missing a particular feature, please let me know._
+Version 2.0b
 
 `solunar` is a command-line utility for Linux and similar platforms, 
 that displays sunrise and sunset times and related data at a specified
@@ -84,7 +77,7 @@ long as you have `gcc` and `make` available:
 `solunar` will build on Linux, and is reported to build on OS/X. It
 will build for Android (for use in a terminal) with the Google 
 native development tools. It builds on Windows under Cygwin, and I would
-expect it to build with the Windows Linux susbsytem (WSL) but 
+expect it to build with the Windows Linux subsystem (WSL) but 
 I haven't tried it. It won't run on Windows under MinGW, even if it builds,
 because there is no timezone database. Problems may also be encountered
 on very minimal Linux systems like Alpine, for the same reason. However,
@@ -327,6 +320,9 @@ _Version 2.0a, July 2020_<br/>
 * Complete reimplementation. Astronomical calculations are now separated
   completely from input and output, into an independent library.
 
+_Version 2.0b, November 2022_<br/>
+* Removed some unnecessary code; added .gitignore; tidied up comments
+
 ## Bugs
 
 Please report bugs through GitHub. Please provide enough information for
@@ -334,7 +330,7 @@ me to reproduce the problem including, in particular, your home timezone.
 
 ## Author
 
-`solunar` is maintained by Kevin Boone, and release for general use under
+`solunar` is maintained by Kevin Boone, and released for general use under
 the terms of the GNU Public Licence, v3.0. 
 
 

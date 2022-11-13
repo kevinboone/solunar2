@@ -20,7 +20,6 @@
 #include <klib/kpath.h>
 #include <klib/klist.h>
 #include <klib/kprops.h>
-#include <klib/kzipfile.h>
 #include <klib/knvp.h>
 #include <klib/kterminal.h>
 #include <klib/klinux_terminal.h>
