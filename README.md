@@ -1,6 +1,6 @@
 # Solunar 2.0
 
-Version 2.0b
+Version 2.0c
 
 `solunar` is a command-line utility for Linux and similar platforms, 
 that displays sunrise and sunset times and related data at a specified
