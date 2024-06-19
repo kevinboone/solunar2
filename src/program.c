@@ -160,7 +160,7 @@ int program_day_summary (const ProgramContext *context)
   "No location specified. Specify a city using the --city switch, or\n"
   "  latitute and longitude in degrees using --lat and --long. If you\n"
   "  specify latitude and longitude, you'll need to specify a timezone\n"
-  "  as well.");
+  "  as well. These settings can also be placed in $HOME/.solunar.rc");
     ret = EINVAL;
     }
 

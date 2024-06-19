@@ -1,5 +1,5 @@
 NAME      := solunar
-VERSION   := 2.0b
+VERSION   := 2.0c
 LIBS      := -lm ${EXTRA_LIBS} 
 KLIB      := klib
 KLIB_INC  := $(KLIB)/include
@@ -15,9 +15,11 @@ DESTDIR   := /
 PREFIX    := /usr
 BINDIR    := $(DESTDIR)/$(PREFIX)/bin
 MANDIR    := $(DESTDIR)/$(PREFIX)/share/man/man1/
-CFLAGS    := -g -O0 -fpie -fpic -Wall -DNAME=\"$(NAME)\" -DVERSION=\"$(VERSION)\" -DPREFIX=\"$(PREFIX)\" -I $(LIBSOL_INC) -I $(KLIB_INC) ${EXTRA_CFLAGS} -ffunction-sections -fdata-sections
+EXTRA_LDFLAGS ?=
+EXTRA_CFLAGS ?=
+CFLAGS    := -g -O3 -Wall -Wno-unused-result -DNAME=\"$(NAME)\" -DVERSION=\"$(VERSION)\" -DPREFIX=\"$(PREFIX)\" -I $(LIBSOL_INC) -I $(KLIB_INC) ${EXTRA_CFLAGS} -ffunction-sections -fdata-sections
 
-LDFLAGS :=  -pie -Wl,--gc-sections ${EXTRA_LDFLAGS}
+LDFLAGS :=  -s -Wl,--gc-sections ${EXTRA_LDFLAGS}
 
 $(TARGET): $(OBJECTS) 
 	echo $(SOURCES)

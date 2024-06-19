@@ -76,12 +76,23 @@ long as you have `gcc` and `make` available:
 
 `solunar` will build on Linux, and is reported to build on OS/X. It
 will build for Android (for use in a terminal) with the Google 
-native development tools. It builds on Windows under Cygwin, and I would
-expect it to build with the Windows Linux subsystem (WSL) but 
-I haven't tried it. It won't run on Windows under MinGW, even if it builds,
-because there is no timezone database. Problems may also be encountered
-on very minimal Linux systems like Alpine, for the same reason. However,
-you can install the timezone database on Alpine using `apk add tzdata`.
+native development tools. For Android you'll need to add position-independent
+code flags to both the build and link:
+
+    $ EXTRA_LDFLAGS=-pie EXTRA_CFLAGS=-fPIC -fPIE make 
+
+It builds on Windows under Cygwin, and I would expect it to build with the
+Windows Linux subsystem (WSL) but I haven't tried it. It won't run on Windows
+under MinGW, even if it builds, because there is no timezone database. Problems
+may also be encountered on very minimal Linux systems like Alpine, for the same
+reason. However, you can install the timezone database on Alpine using `apk add
+tzdata`.
+
+`solunar` stores timezone information for cities in `libsolunar/src/cityinfo.h`.
+Timezone information changes occasionally. If you're building on a system with 
+an up-to-date `/usr/share/zoneinfo/zone.tab` you can optionally run
+`parse_zoneinfo.pl` to generate a new `cityinfo.h`. All the recent changes of
+which I'm aware have been in naming -- Kyev to Kiev, etc.
 
 ## Command-line options
 
@@ -322,6 +333,10 @@ _Version 2.0a, July 2020_<br/>
 
 _Version 2.0b, November 2022_<br/>
 * Removed some unnecessary code; added .gitignore; tidied up comments
+
+_Version 2.0c, June 2024_<br/>
+* Updated city information; small changes to Makefile; small documentation
+  changes; added LICENCE file
 
 ## Bugs
 
