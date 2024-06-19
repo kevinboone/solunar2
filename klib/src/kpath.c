@@ -629,9 +629,9 @@ int kpath_sort_fn (const void *p1, const void *p2, void *user_data)
     {
     if (kpss->field == KPSORTFIELD_SIZE)
       {
-      uint64_t t1;
+      uint64_t t1 = 0;
       kpath_size (sp1, &t1); 
-      uint64_t t2;
+      uint64_t t2 = 0;
       kpath_size (sp2, &t2); 
       if (t1 > t2) ret = 1;
       else if (t1 < t2) ret = -1;
@@ -639,9 +639,9 @@ int kpath_sort_fn (const void *p1, const void *p2, void *user_data)
       }
     else if (kpss->field == KPSORTFIELD_MTIME)
       {
-      time_t t1;
+      time_t t1 = 0;
       kpath_mtime (sp1, &t1); 
-      time_t t2;
+      time_t t2 = 0;
       kpath_mtime (sp2, &t2); 
       if (t1 > t2) ret = 1;
       else if (t1 < t2) ret = -1;
