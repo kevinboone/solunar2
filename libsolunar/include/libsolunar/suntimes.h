@@ -25,11 +25,11 @@
 
 BEGIN_DECLS
 
-/** Get a very approximate sunrise time, relative to midnight UTC at the
- * specified location on the specified day of year. Sunrise is taken to be 6AM
- * UTC at the meridian on that day. There's unlike to be a good reason to call
- * this function -- it is used internally to seed various calculations whose
- * logic would otherwise be circular. */
+/** Get a very approximate sunrise time, relative to midnight UTC on day zero
+ * of the tropical year at the specified location on the specified day of year.
+ * Sunrise is taken to be 6AM UTC at the meridian on that day. There's unlikely
+ * to be a good reason to call this function -- it is used internally to seed
+ * various calculations whose logic would otherwise be circular. */
 extern double suntimes_get_approx_sunrise_time (int doy, double longitude);
 
 /** Set get_approx_sunrise_time(). */
@@ -46,10 +46,15 @@ extern double suntimes_get_cos_local_hour_angle (double sun_longitude,
 
 /** Calculate the sun's mean anomaly as an angle in degrees, at the specified
  * day of year, at a crudely-estimated time of sunset. We use this figure to
- * obtain a better estimate of sunset. For a description of mean anomaly, see
- * https://en.wikipedia.org/wiki/Mean_anomaly. The return value is in degrees.
- *
- * Because the Sun's orbit around the Earth (!) is not particularly eccentric,
+ * obtain a better estimate of sunset. The return value is in degrees.
+ * 
+ * For a description of mean anomaly, see
+ * https://en.wikipedia.org/wiki/Mean_anomaly. 
+ * Broadly, it's the number of degrees the Sun has moved in its 'orbit around'
+ * the Earth, from some specific reference point, a particular number of 
+ * days since it was at that reference point.
+
+ * Because the Sun's 'orbit around the Earth' is not particularly eccentric,
  * and because the number of degrees in a circle is nearly the same as days in
  * a year, the result is usually roughly the same as the day of the year, which
  * can be confusing. */ 
@@ -60,18 +65,22 @@ extern double suntimes_get_sun_mean_anomaly_at_sunrise
 extern double suntimes_get_sun_mean_anomaly_at_sunset
                   (int doy, double longitude);
 
-/** Get the Sun's right ascension from it celestial longitude. Both
- * input and output are in degrees. */ 
+/** Get the Sun's right ascension from it celestial longitude. Both input and
+ * output are in degrees. */ 
 extern double suntimes_get_sun_ra_hours (double longitude);
 
-/** Get the celestial longitude of the sun, at some angle around its orbit. */
+/** Get the celestial longitude of the sun, at some angle around its 
+  * approximate circular orbit. We'll use this function to convert the Sun's
+  * mean anomaly (i.e., its longitude assuming a circular orbit) into the true
+  * longitude. The formula for this correction is on p.102 of [DS&Z].
+ */
 extern double suntimes_get_sun_true_longitude (double angle);
 
-/** Get the time of sunrise on the day which includes the specified
- * time. It doesn't matter, in principle, what time the value of
- * t corresponds to -- only the day of the year is actually used.
- * However, we need to specify a complete time, rather than just a day
- * of year, so the returned time_t can be meaningful. */
+/** Get the time of sunrise on the day which includes the specified time. It
+ * doesn't matter, in principle, what time the value of t corresponds to --
+ * only the day of the year is actually used.  However, we need to specify a
+ * complete time, rather than just a day of year, so the returned time_t can be
+ * meaningful. */
 time_t suntimes_get_sunrise (time_t day, double latitude, double longitude, 
        double zenith);
 

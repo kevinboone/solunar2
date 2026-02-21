@@ -21,6 +21,29 @@
 static const double DEG_PER_HOUR = 360.0 / 24.0;
 static const double TWO_PI = 2.0 * M_PI; 
 
+// days_per_year is the number of terrestrial days in a tropic year; that
+//  is, the number of days it takes for the sun to return to the same
+//  point in its orbit 'around the Earth'.
+static const double days_per_year = 365.242191;
+
+// deg_per_day is the number of degrees that the sun moves in its orbit
+//  'around the Earth' in one terrestrial day. We use this in the 
+//  calculation of the SUn's mean anomaly.
+static const double deg_per_day = 360/days_per_year;
+
+static const double e = 0.016705; 
+static const double eg = 279.557207; 
+static const double wg = 283.112438; 
+
+// perigee_offset_deg is the difference between the sun's mean anomaly at the
+//   start of the reference epoch, and the mean anomaly at perigee following
+//   that epoch. We need this figure because the mean anomaly is generally
+//   expressed relative to perigee, not to the epoch, and calcuation is done
+//   on that basis. So, if we calculate the MA using a time from epoch, we
+//   must offset the MA by this amount.  
+//static const double perigee_offset_deg = -3.289;
+static const double perigee_offset_deg = eg - wg;
+
 #define KLOG_CLASS "libsolunar.suntimes"
 
 /*============================================================================
@@ -95,8 +118,8 @@ double suntimes_get_cos_local_hour_angle (double sun_longitude,
 double suntimes_get_sun_mean_anomaly_at_sunrise (int doy, double longitude)
   {
   KLOG_IN
-  double ret = (0.9856 * suntimes_get_approx_sunrise_time 
-     (doy, longitude)) - 3.289; 
+  double ret = (deg_per_day * suntimes_get_approx_sunrise_time 
+     (doy, longitude)) + perigee_offset_deg; 
   KLOG_OUT
   return ret;
   }
@@ -109,8 +132,8 @@ double suntimes_get_sun_mean_anomaly_at_sunrise (int doy, double longitude)
 double suntimes_get_sun_mean_anomaly_at_sunset (int doy, double longitude)
   {
   KLOG_IN
-  double ret = (0.9856 * suntimes_get_approx_sunset_time 
-     (doy, longitude)) - 3.289; 
+  double ret = (deg_per_day * suntimes_get_approx_sunset_time 
+     (doy, longitude)) + perigee_offset_deg; 
   KLOG_OUT
   return ret;
   }
@@ -247,8 +270,12 @@ double suntimes_get_sun_true_longitude (double angle)
   {
   KLOG_IN
 
-  double l = angle + (1.916 * mathutil_sin_deg (angle))
-                + (0.020 * mathutil_sin_deg (2 * angle)) + 282.634;
+  // Old formula
+  //double l = angle + (1.916 * mathutil_sin_deg (angle))
+  //              + (0.020 * mathutil_sin_deg (2 * angle)) + 282.634;
+
+  //New formula for this anomaly correction, p.102 of [DS&Z].
+  double l = angle + (360.0 / M_PI) * e * mathutil_sin_deg (angle) + wg;  
 
   // get longitude into 0-360 degree range
   if (l >= 360.0) l = l - 360.0;

@@ -253,6 +253,7 @@ BOOL program_context_parse_command_line (ProgramContext *self,
       {"log-level", required_argument, NULL, 0},
       {"latitude", required_argument, NULL, 'l'},
       {"longitude", required_argument, NULL, 'o'},
+      {"markdown", no_argument, NULL, 'm'},
       {"version", no_argument, NULL, 'v'},
       {0, 0, 0, 0}
     };
@@ -261,7 +262,7 @@ BOOL program_context_parse_command_line (ProgramContext *self,
    while (ret)
      {
      int option_index = 0;
-     opt = getopt_long (argc, argv, "hvl:o:y::c:t:d:faj",
+     opt = getopt_long (argc, argv, "hvl:o:y::c:t:d:fajm",
      long_options, &option_index);
 
      if (opt == -1) break;
@@ -285,6 +286,7 @@ BOOL program_context_parse_command_line (ProgramContext *self,
        case 'h': PCPB (self, "show-usage", TRUE); break;
        case 'j': PCPB (self, "json", TRUE); break;
        case 'l': PCP (self, "latitude", optarg); break;
+       case 'm': PCPB (self, "markdown", TRUE); break;
        case 'o': PCP (self, "longitude", optarg); break;
        case 't': PCP (self, "tz", optarg); break;
        case 'v': PCPB (self, "show-version", TRUE); break;
@@ -314,7 +316,7 @@ BOOL program_context_parse_command_line (ProgramContext *self,
   if (PCGB (self, "show-version", FALSE))
     {
     printf ("%s: %s version %s\n", argv[0], NAME, VERSION);
-    printf ("Copyright (c)1990-2024 Kevin Boone\n");
+    printf ("Copyright (c)1990-2026 Kevin Boone\n");
     printf ("Distributed under the terms of the GPL v3.0\n");
     ret = FALSE;
     }
@@ -473,6 +475,7 @@ void program_context_show_usage (FILE *fout, const char *argv0)
   fprintf (fout, "     --list-cities         list cities\n");
   fprintf (fout, "     --log-level=[0..5]    log level (default 2)\n");
   fprintf (fout, "  -l,--latitude=[degrees]  set latitude\n");
+  fprintf (fout, "  -m,--markdown            output markdown format\n");
   fprintf (fout, "  -o,--longitude=[degrees] set longitude\n");
   fprintf (fout, "  -t,--tz=[timezone]       set timezone\n");
   fprintf (fout, "  -v,--version             show version\n");

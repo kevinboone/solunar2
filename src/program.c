@@ -180,11 +180,15 @@ static void program_format_day_summary (const ProgramContext *context,
   KLOG_IN
 
   BOOL full = HAS_OPTION ("full");
+  BOOL markdown = HAS_OPTION ("markdown");
 
   const char *display_city = solunar_day_summary_get_city (sds);
   const char *tz_city = solunar_day_summary_get_tz_city (sds);
   if (display_city)
+    {
+    if (markdown) printf ("# Sun/moon times for ");
     printf ("%s\n", display_city);
+    }
   double display_lat = solunar_day_summary_get_latitude (sds);
   double display_long = solunar_day_summary_get_longitude (sds);
   if (display_lat > 0)
@@ -201,12 +205,33 @@ static void program_format_day_summary (const ProgramContext *context,
   printf ("%s\n", s);
   free (s);
 
-  printf ("Sun:\n");
+  if (markdown) printf ("## Sun\n"); else printf ("Sun:\n");
 
   const char *clocktime = "24hr";
   if (HAS_OPTION ("ampm")) clocktime = "12hr";
 
   time_t t;
+
+  t = solunar_day_summary_get_sunrise (sds);
+  if (t)
+    {
+    char *s = datetimeconv_format_time (clocktime, tz_city, t);
+    printf ("  Sunrise %s\n", s);
+    free (s);
+    }
+  else
+    printf ("  No sunrise\n");
+
+  t = solunar_day_summary_get_sunset (sds);
+  if (t)
+    {
+    char *s = datetimeconv_format_time (clocktime, tz_city, t);
+    printf ("  Sunset %s\n", s);
+    free (s);
+    }
+  else
+    printf ("  No sunset\n");
+
   if (full)
     {
     t = solunar_day_summary_get_start_astronomical_twilight (sds);
@@ -238,20 +263,7 @@ static void program_format_day_summary (const ProgramContext *context,
       }
     else
       printf ("  No civil twilight\n");
-    }
 
-  t = solunar_day_summary_get_sunrise (sds);
-  if (t)
-    {
-    char *s = datetimeconv_format_time (clocktime, tz_city, t);
-    printf ("  Sunrise %s\n", s);
-    free (s);
-    }
-  else
-    printf ("  No sunrise\n");
-
-  if (full)
-    {
     t = solunar_day_summary_get_high_noon (sds);
     if (t)
       {
@@ -259,21 +271,11 @@ static void program_format_day_summary (const ProgramContext *context,
       printf ("  High noon %s\n", s);
       free (s);
       double a = solunar_day_summary_get_sun_max_altitude (sds);
-      printf ("  Sun's altitude at high noon %g deg\n", a);
+      printf ("  Sun's altitude at high noon %d deg\n", (int)a);
       }
     else
       printf ("  No high noon\n");
       }
-
-  t = solunar_day_summary_get_sunset (sds);
-  if (t)
-    {
-    char *s = datetimeconv_format_time (clocktime, tz_city, t);
-    printf ("  Sunset %s\n", s);
-    free (s);
-    }
-  else
-    printf ("  No sunset\n");
 
   if (full)
     {
@@ -308,7 +310,7 @@ static void program_format_day_summary (const ProgramContext *context,
       printf ("  No astronomical twilight\n");
     }
 
-  printf ("Moon:\n");
+  if (markdown) printf ("## Moon\n"); else printf ("Moon:\n");
 
   int nrises = solunar_day_summary_get_n_rises (sds);
   if (nrises > 0)
@@ -348,7 +350,7 @@ static void program_format_day_summary (const ProgramContext *context,
   const char *moon_phase_name 
 	   = solunar_day_summary_get_moon_phase_name (sds);
 
-  printf ("  moon phase %.2f, %s\n", moon_phase, moon_phase_name);
+  printf ("  Moon phase %.2f, %s\n", moon_phase, moon_phase_name);
   int moon_flags = solunar_day_summary_get_moon_flags (sds);
   if (moon_flags) 
     {
@@ -360,8 +362,8 @@ static void program_format_day_summary (const ProgramContext *context,
     }
   if (full)
     {
-    printf ("  moon age %.1f days since new\n", moon_age);
-    printf ("  moon distance %g km\n", moon_distance); 
+    printf ("  Moon age %.1f days since new\n", moon_age);
+    printf ("  Moon distance %g km\n", moon_distance); 
     }
 
   KLOG_OUT

@@ -48,7 +48,10 @@ char *datetimeconv_format_time (const char *fmt, const char *tz,
     {
     const char *ampm;
     if (tm.tm_hour >= 12) ampm = "pm"; else ampm = "am"; 
-    sprintf (s, "%2d:%02d %s", tm.tm_hour % 12, tm.tm_min, ampm);
+    if (tm.tm_hour == 12)
+      sprintf (s, "%2d:%02d %s", 12, tm.tm_min, ampm);
+    else
+      sprintf (s, "%2d:%02d %s", tm.tm_hour % 12, tm.tm_min, ampm);
     }
   else if (strcmp (fmt, "24hr") == 0)
     sprintf (s, "%02d:%02d", tm.tm_hour, tm.tm_min);

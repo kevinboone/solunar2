@@ -1,6 +1,6 @@
 # Solunar 2.0
 
-Version 2.0c
+Version 2.0d
 
 `solunar` is a command-line utility for Linux and similar platforms, 
 that displays sunrise and sunset times and related data at a specified
@@ -167,6 +167,11 @@ Note that latitude and longitude can be specified along with a city
 name, to use the city's timezone information. Without a city name, 
 the latitude and longitude must be used with the `--tz` option
 to set a timezone.
+
+*-m,--markdown
+
+Add light markdown formatting to output.
+
 
 *-t,--tz={timezone}*
 
@@ -337,6 +342,9 @@ _Version 2.0b, November 2022_<br/>
 _Version 2.0c, June 2024_<br/>
 * Updated city information; small changes to Makefile; small documentation
   changes; added LICENCE file
+
+_Version 2.0d, February 2026_<br/>
+* Added 'markdown' option; minor bug fixes
 
 ## Bugs
 
