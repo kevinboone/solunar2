@@ -105,7 +105,7 @@ Show 12-hour AM/PM times rather than 24-hour clock times.
 Specify a full or partial city name. Full names are of the form
 "Europe/London", but it is usually easier to give a partial name:
 `--city=paris`.  Matching is case-insensitive, and the program will warn if
-there is more than one match. Use `--city-list` to get a (long) list of known
+there is more than one match. Use `--list-cities` to get a (long) list of known
 cities.
 
 Specifying a city sets the geographical location (latitude and
